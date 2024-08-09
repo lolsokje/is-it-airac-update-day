@@ -14,6 +14,12 @@
     @vite('resources/css/app.css')
 </head>
 <body class="h-screen bg-[#091227] text-white text-2xl">
+    @if (Session::has('success'))
+        <div class="absolute w-1/2 py-4 text-center text-sm uppercase font-bold rounded-lg translate-x-1/2 top-10 bg-green-200 text-green-600">
+            {{ Session::get('success') }}
+        </div>
+    @endif
+
     <div class="h-full w-full flex justify-center items-center">
         <div class="max-w-5xl text-center">
             <h2 class="text-5xl">Is it AIRAC update day?</h2>
@@ -55,11 +61,29 @@
             </p>
 
             <div class="w-2/3 text-center mx-auto mt-8">
-                <input type="text"
-                       placeholder="Enter your email here"
-                       class="block w-full p-4 rounded-md mb-4 text-base uppercase text-center"
-                >
-                <button class="w-full py-3 uppercase text-base tracking-widest bg-[#3C72FF] rounded-md">signup</button>
+                <form action="{{ route('subscription.store') }}" method="POST">
+                    @csrf
+
+                    <div class="mb-4">
+                        <input type="email"
+                               name="email_address"
+                               placeholder="Enter your email here"
+                               class="block w-full p-4 rounded-md text-base text-center text-gray-500"
+                        >
+
+                        @if ($errors)
+                            <span class="uppercase text-sm text-[#EE2D3B]">{{ $errors->first() }}</span>
+                        @endif
+                    </div>
+
+                    <button class="w-full py-3 uppercase text-base tracking-widest bg-[#3C72FF] rounded-md">
+                        subscribe
+                    </button>
+
+                    <a href="{{ route('unsubscribe.show') }}" class="text-sm text-white uppercase mt-4">
+                        already subscribed?
+                    </a>
+                </form>
             </div>
         </div>
     </div>
