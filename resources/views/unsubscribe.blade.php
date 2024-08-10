@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layout.default')
 
-    <title>{{ config('app.name') }}</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=rubik:100,200,300,400,500,600,700,800,900&display=swap"
-          rel="stylesheet"/>
-
-    @vite('resources/css/app.css')
-</head>
-<body class="h-dvh bg-[#091227] text-white text-md lg:text-2xl px-4 lg:px-0">
+@section('body')
     <div class="min-h-full w-full flex justify-center items-center">
         <a href="{{ route('index') }}" class="absolute top-4 lg:top-10 text-center text-sm uppercase">&larr; back</a>
 
@@ -48,4 +35,4 @@
             </div>
         </div>
     </div>
-</html>
+@endsection
