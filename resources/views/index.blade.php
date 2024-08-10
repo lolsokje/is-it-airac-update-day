@@ -13,18 +13,20 @@
 
     @vite('resources/css/app.css')
 </head>
-<body class="h-screen bg-[#091227] text-white text-2xl">
-    @if (Session::has('success'))
-        <div class="absolute w-1/2 py-4 text-center text-sm uppercase font-bold rounded-lg translate-x-1/2 top-10 bg-green-200 text-green-600">
-            {{ Session::get('success') }}
-        </div>
-    @endif
+<body class="h-dvh bg-[#091227] text-white text-md lg:text-2xl px-4 lg:px-0">
+    <div class="relative">
+        @if (Session::has('success'))
+            <div class="absolute w-full lg:w-1/2 py-4 px-2 lg:px-0 text-center text-sm uppercase font-bold rounded-lg lg:translate-x-1/2 top-5 lg:top-10 bg-green-200 text-green-600">
+                {{ Session::get('success') }}
+            </div>
+        @endif
+    </div>
 
-    <div class="h-full w-full flex justify-center items-center">
+    <div class="min-h-full w-full flex justify-center items-center">
         <div class="max-w-5xl text-center">
-            <h2 class="text-5xl">Is it AIRAC update day?</h2>
+            <h2 class="text-3xl lg:text-5xl">Is it AIRAC update day?</h2>
 
-            <h1 class="text-8xl my-20 font-black {{ $releasesToday ? 'text-[#0A9115]' : 'text-[#EE2D3B]' }}">
+            <h1 class="text-5xl lg:text-8xl my-4 lg:my-20 font-black {{ $releasesToday ? 'text-[#0A9115]' : 'text-[#EE2D3B]' }}">
                 {{ $releasesToday ? 'YES' : 'NO' }}
             </h1>
 
@@ -55,12 +57,12 @@
                 @endif
             </p>
 
-            <p class="mt-40">
+            <p class="mt-10 lg:mt-40">
                 Want to receive updates when a new cycles become available?<br>
                 Leave your email address and we'll let you know!
             </p>
 
-            <div class="w-2/3 text-center mx-auto mt-8">
+            <div class="w-full lg:w-2/3 text-center mx-auto mt-8">
                 <form action="{{ route('subscription.store') }}" method="POST">
                     @csrf
 
@@ -80,7 +82,7 @@
                         subscribe
                     </button>
 
-                    <a href="{{ route('unsubscribe.show') }}" class="text-sm text-white uppercase mt-4">
+                    <a href="{{ route('unsubscribe.show') }}" class="text-sm text-white uppercase">
                         already subscribed?
                     </a>
                 </form>
