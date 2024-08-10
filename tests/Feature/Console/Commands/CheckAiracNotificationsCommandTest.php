@@ -3,6 +3,14 @@
 use App\Action\GetActiveCycle;
 use App\Models\Subscription;
 use App\Notifications\NewCycleAvailableNotification;
+use Illuminate\Support\Facades\Log;
+
+beforeEach(function () {
+    // Disable logging in these tests
+    Log::shouldReceive('channel->info')
+        ->once()
+        ->andReturnNull();
+});
 
 it('does not send notifications when there is no new cycle', function () {
     createCycles();
