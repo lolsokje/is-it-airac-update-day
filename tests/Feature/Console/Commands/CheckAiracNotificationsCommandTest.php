@@ -1,5 +1,6 @@
 <?php
 
+use App\Action\GetActiveCycle;
 use App\Models\Subscription;
 use App\Notifications\NewCycleAvailableNotification;
 
@@ -49,4 +50,22 @@ it('can queue hundreds of emails', function () {
     Notification::assertSentTo($subscriptions, NewCycleAvailableNotification::class, function (NewCycleAvailableNotification $notification) {
         return $notification->cycle->ident === '2402';
     });
+});
+
+it('does not sent notifications to subscribers who have already received a notification about the current cycle', function () {
+    Notification::fake();
+
+    createCycles();
+
+    $this->travelTo(new DateTime('2024-02-01'));
+
+    $cycle = GetActiveCycle::handle();
+
+    $subscriber = Subscription::factory()->create(['cycle_id' => $cycle->id]);
+
+    $this->artisan('notify:airac')
+        ->assertOk();
+
+    Notification::assertCount(0);
+    Notification::assertNotSentTo($subscriber, NewCycleAvailableNotification::class);
 });

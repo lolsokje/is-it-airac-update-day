@@ -26,8 +26,12 @@ final class AiracNotificationCommand extends Command
             return self::SUCCESS;
         }
 
+        $subscribers = Subscription::query()
+            ->where('cycle_id', '<', $cycle->id)
+            ->orWhereNull('cycle_id');
+
         /** @var Collection<Subscription> $subscriptions */
-        Subscription::query()->chunk(100, function (Collection $subscriptions) use ($cycle) {
+        $subscribers->chunk(100, function (Collection $subscriptions) use ($cycle) {
             $subscriptions->each(fn (Subscription $subscription) => $subscription->notify(new NewCycleAvailableNotification($cycle)));
         });
 

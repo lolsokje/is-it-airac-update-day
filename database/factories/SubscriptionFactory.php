@@ -15,6 +15,7 @@ final class SubscriptionFactory extends Factory
     {
         return [
             'email' => $this->faker->unique()->safeEmail(),
+            'cycle_id' => null,
         ];
     }
 }
