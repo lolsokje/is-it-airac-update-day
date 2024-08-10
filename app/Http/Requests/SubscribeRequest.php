@@ -11,14 +11,14 @@ final class SubscribeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email_address' => ['required', 'unique:subscriptions,email_address', 'email:rfc'],
+            'email' => ['required', 'unique:subscriptions,email', 'email:rfc'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'email_address.unique' => 'This email address is already signed up',
+            'email.unique' => 'This email address is already signed up',
         ];
     }
 }

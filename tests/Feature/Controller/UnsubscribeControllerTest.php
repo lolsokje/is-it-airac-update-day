@@ -4,11 +4,11 @@ use App\Models\Subscription;
 
 test('users can unsubscribe', function () {
     Subscription::factory()->create([
-        'email_address' => 'test@example.com',
+        'email' => 'test@example.com',
     ]);
 
     $this->delete(route('subscription.destroy'), [
-        'email_address' => 'test@example.com',
+        'email' => 'test@example.com',
     ])
         ->assertRedirectToRoute('index')
         ->assertSessionHas('success');
@@ -19,10 +19,10 @@ test('users can unsubscribe', function () {
 test('the user must have subscribed to be able to unsubscribe', function () {
     $this->from(route('unsubscribe.show'))
         ->delete(route('subscription.destroy'), [
-            'email_address' => 'test@example.com',
+            'email' => 'test@example.com',
         ])
         ->assertRedirectToRoute('unsubscribe.show')
-        ->assertInvalid('email_address');
+        ->assertInvalid('email');
 
     $this->assertCount(0, Subscription::query()->get());
 });

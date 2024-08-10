@@ -14,7 +14,7 @@ final class SubscriptionFactory extends Factory
     public function definition(): array
     {
         return [
-            'email_address' => $this->faker->safeEmail(),
+            'email' => $this->faker->unique()->safeEmail(),
         ];
     }
 }

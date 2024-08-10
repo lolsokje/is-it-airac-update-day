@@ -13,7 +13,7 @@ final readonly class UnsubscribeController
     public function __invoke(UnsubscribeRequest $request): RedirectResponse
     {
         Subscription::query()
-            ->where('email_address', $request->validated('email_address'))
+            ->where('email', $request->validated('email'))
             ->first()
             ->delete();
 

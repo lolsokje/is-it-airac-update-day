@@ -32,7 +32,7 @@
 
                 <div class="mb-4">
                     <input type="email"
-                           name="email_address"
+                           name="email"
                            placeholder="Enter your email here"
                            class="block w-full p-4 rounded-md text-base text-center text-gray-500"
                     >

@@ -4,7 +4,7 @@ use App\Models\Subscription;
 
 test('users can subscribe', function () {
     $this->post(route('subscription.store'), [
-        'email_address' => 'test@example.com',
+        'email' => 'test@example.com',
     ])
         ->assertRedirectToRoute('index')
         ->assertSessionHas('success');
@@ -13,23 +13,23 @@ test('users can subscribe', function () {
 });
 
 test('the provided email address must be unique', function () {
-    Subscription::factory()->create(['email_address' => 'test@example.com']);
+    Subscription::factory()->create(['email' => 'test@example.com']);
 
     $this->post(route('subscription.store'), [
-        'email_address' => 'test@example.com',
+        'email' => 'test@example.com',
     ])
         ->assertRedirectToRoute('index')
-        ->assertInvalid('email_address');
+        ->assertInvalid('email');
 
     $this->assertCount(1, Subscription::query()->get());
 });
 
-test('the provided email address must be valid', function (string $emailAddress) {
+test('the provided email address must be valid', function (string $email) {
     $this->post(route('subscription.store'), [
-        'email_address' => $emailAddress,
+        'email' => $email,
     ])
         ->assertRedirectToRoute('index')
-        ->assertInvalid('email_address');
+        ->assertInvalid('email');
 
     $this->assertCount(0, Subscription::query()->get());
 })->with([
