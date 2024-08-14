@@ -1,7 +1,7 @@
 <link href="https://fonts.bunny.net/css?family=rubik:100,200,300,400,500,600,700,800,900&display=swap"
       rel="stylesheet"/>
 <div style="background-color: #f1f5f9; height: 100vh;width:100vw;overflow: auto;font-family: Rubik, sans-serif">
-    <div style="width:30%; margin: 3rem auto; background-color: white; padding: 2rem 1rem; border-radius: .5rem">
+    <div style="width:50%; margin: 3rem auto; background-color: white; padding: 2rem 1rem; border-radius: .5rem">
         <h2 style="font-weight: 400;">Hello!</h2>
 
         <div style="color: gray;">
