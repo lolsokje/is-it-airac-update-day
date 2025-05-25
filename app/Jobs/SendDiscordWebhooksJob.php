@@ -7,6 +7,7 @@ namespace App\Jobs;
 use App\Models\Cycle;
 use App\Models\DiscordWebhook;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\Attributes\WithoutRelations;
@@ -16,7 +17,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
-final class SendDiscordWebhooksJob implements ShouldQueue
+final class SendDiscordWebhooksJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -27,6 +28,8 @@ final class SendDiscordWebhooksJob implements ShouldQueue
 
     public int $maxExceptions = 3;
 
+    public int $uniqueFor = 3600;
+
     private const string DISCORD_WEBHOOK_RATE_LIMIT_KEY = 'discord.webhook.rate-limit';
 
     public function __construct(
@@ -34,7 +37,9 @@ final class SendDiscordWebhooksJob implements ShouldQueue
         private readonly DiscordWebhook $discordWebhook,
         #[WithoutRelations]
         private readonly Cycle $cycle,
-    ) {}
+    ) {
+        $this->onQueue('webhooks');
+    }
 
     public function handle(): void
     {
@@ -76,5 +81,10 @@ final class SendDiscordWebhooksJob implements ShouldQueue
     public function retryUntil(): Carbon
     {
         return now()->addHours(12);
+    }
+
+    public function uniqueId(): string
+    {
+        return "{$this->discordWebhook->id}.{$this->cycle->ident}";
     }
 }
