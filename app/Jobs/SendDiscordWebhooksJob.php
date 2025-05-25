@@ -38,6 +38,10 @@ final class SendDiscordWebhooksJob implements ShouldQueue
 
     public function handle(): void
     {
+        if ($this->discordWebhook->hasBeenCompletedForCycle($this->cycle)) {
+            return;
+        }
+
         if ($timestamp = Cache::get(self::DISCORD_WEBHOOK_RATE_LIMIT_KEY)) {
             $this->release($timestamp - time());
 
@@ -65,6 +69,8 @@ final class SendDiscordWebhooksJob implements ShouldQueue
 
             return;
         }
+
+        $this->discordWebhook->markAsCompletedForCycle($this->cycle);
     }
 
     public function retryUntil(): Carbon
